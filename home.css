@@ -1,0 +1,126 @@
+body{
+    background-color: aqua;
+    color: black;
+    text-decoration: dotted;
+    border: 5px;
+   background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('helping.jpeg.jpeg');
+  background-size: cover;
+  background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    
+
+}
+.col-md-4 donation-card{
+    color: white;
+}
+.btn-btn-outline-secondary{
+    background-color: aqua;
+    border-radius: 5px;
+
+}
+.btn-btn-outline-secondary:hover{
+    background-color: bisque;
+}
+.card-body{
+    background-color: aqua;
+    border: 1px solid;
+    border-radius: 5px;
+
+}
+.card-body:hover{
+    background-color: aliceblue;
+}
+.mt-5 {
+    color: white;
+}
+.death{
+    color: white;
+
+}
+.message{
+    color: white;
+}
+.sachet{
+    
+  border: 3px solid #4CAF50;
+  border-radius: 20%;
+  font-weight: bold;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  transition: background-color 0.3s; 
+}
+
+.sachet:hover {
+  background-color: #45a049;
+}
+ .emergency-card {
+
+    background-color: #dc3545;
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+.emergency-card h5 {
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.emergency-card ul {
+    list-style: none;
+    padding: 0;
+    flex-grow: 1;
+}
+.emergency-card li {
+    margin-bottom: 10px;
+    font-size: 1.1em;
+}
+.emergency-card li strong {
+    display: inline-block;
+    width: 150px;
+}
+        .cardb {
+    background-color: #ff0000;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 700px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+.cardb h5 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+.cardb table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+.cardb th, .cardb td {
+    border: 1px solid white;
+    padding: 10px;
+    text-align: left;
+    font-size: 16px;
+}
+.cardb th {
+    background-color: #cc0000;
+}
+.cardb .note {
+    font-style: italic;
+    font-size: 14px;
+    text-align: center;
+    color: white;
+    margin-top: auto;
+}

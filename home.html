@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Friend In Need - Home</title>
+  <link rel="stylesheet" href="home.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+  
+    .calamity-card, .donation-card { margin-bottom: 20px; }
+    #accidentCounter { font-size: 1.5em; font-weight: bold; color: #dc3545; }
+    .note { font-style: italic; color: #6c757d; }
+  </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-primary">
+  <a class="navbar-brand">Friend In Need</a>
+  <div class="collapse navbar-collapse">
+    <ul class="navbar-nav ml-auto">
+      <!--<li class="nav-item"><a class="nav-link" href="#">Home</a></li> -->
+      <li class="nav-item"><a class="nav-link" href="#">Your ID</a></li>
+      <li class="nav-item"><a class="nav-link" href="#" onclick="logout()">Logout</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container mt-4">
+  <!-- Seek Help Section -->
+  <h3>Seek Help</h3>
+  <form id="helpForm">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <select class="form-control" id="problemType">
+          <option value="health">Health Issue</option>
+          <option value="stuck">Stuck Somewhere</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="form-group col-md-6">
+        <div class="input-group">
+          <input type="text" class="form-control" id="location" placeholder="Location / Hospital">
+          <div class="input-group-append">
+            <button class="btn-btn-outline-secondary" type="button" id="getLocationBtn"><b>Get GPS</b></button>
+          </div>
+        </div>
+        <small id="locationError" class="form-text text-danger" style="display: none;"></small>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-success">Request Help</button>
+  </form>
+  <a href="help.html" class="text-decoration-none">
+    <div class="card" style="cursor: pointer;">
+      <!--<img src="https://via.placeholder.com/300x150" class="card-img-top" alt="Help">-->
+      <div class="card-body">
+        <h5 class="card-title">Need Help</h5>
+        <p class="card-text"><b>Click here to seek help</b></p>
+      </div>
+    </div>
+  </a>
+  
+
+  <!-- Current Calamities Section -->
+  <h4 class="mt-5"><b>Current Calamities in India</b></h4>
+  <div id="calamities" class="mt-3"></div>
+  <button class="sachet" onclick="window.location.href='https://sachet.ndma.gov.in/'">
+  Sachet Portal
+   </button>
+
+  <!-- Donation Section -->
+  <h4 class="mt-5"><b>Donate to Help</b></h4>
+  <div class="row">
+    <div class="col-md-4 donation-card">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title"><b>Donate Money</b></h5>
+          <p class="card-text">Support disaster relief with monetary donations via Smile Foundation.</p>
+          <a href="https://www.smilefoundationindia.org" target="_blank" class="btn btn-primary">Donate Now</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 donation-card">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title"><b>Donate Food</b></h5>
+          <p class="card-text">Contribute to feeding children through Akshaya Patra.</p>
+          <a href="https://www.feedingindia.org" target="_blank" class="btn btn-primary">Donate Now</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 donation-card">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title"><b>Donate Clothes</b></h5>
+          <p class="card-text">Provide clothes to those in need via Orphans in Need.</p>
+          <a href="https://www.orphansinneed.org.uk" target="_blank" class="btn btn-primary">Donate Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Future Calamities Section -->
+  <h4 class="mt-5"><b>Future Calamity Forecast</b></h4>
+  <div id="futureCalamities" class="mt-3"></div>
+  
+
+  <!-- Accident Deaths Counter 
+  <h4 class="mt-5"><b>Lives Lost to Accidents in 2025</b></h4>
+  <div id="accidentCounter" class="mt-3">Loading...</div>
+  <p class="note">These all died because they didn’t get any help on time.</p> -->
+  <h3 class="death">530 lives are lost in india per day as there was no one to...</h3>
+    <h1 class="death"><b>Help!</b></h1>
+    <h3 class="message"> Its an initiative to save lives and be helpful whenever we can be.<br> You don't need a reason to help people...</h3>
+
+  <!-- People Near You Section -->
+  <h4 class="mt-5">People Near You Who Need Help:</h4>
+  <div id="helpRequests" class="mt-3"></div>
+</div>
+<div class="cardb">
+   <h5>Blood Group Donation Compatibility</h5>
+        <table>
+            <tr>
+                <th>Blood Group</th>
+                <th>Can Donate To</th>
+                <th>Can Receive From</th>
+            </tr>
+            <tr>
+                <td>A+</td>
+                <td>A+, AB+</td>
+                <td>A+, A-, O+, O-</td>
+            </tr>
+            <tr>
+                <td>A-</td>
+                <td>A+, A-, AB+, AB-</td>
+                <td>A-, O-</td>
+            </tr>
+            <tr>
+                <td>B+</td>
+                <td>B+, AB+</td>
+                <td>B+, B-, O+, O-</td>
+            </tr>
+            <tr>
+                <td>B-</td>
+                <td>B+, B-, AB+, AB-</td>
+                <td>B-, O-</td>
+            </tr>
+            <tr>
+                <td>AB+</td>
+                <td>AB+</td>
+                <td>All blood groups</td>
+            </tr>
+            <tr>
+                <td>AB-</td>
+                <td>AB+, AB-</td>
+                <td>AB-, A-, B-, O-</td>
+            </tr>
+            <tr>
+                <td>O+</td>
+                <td>A+, B+, AB+, O+</td>
+                <td>O+, O-</td>
+            </tr>
+            <tr>
+                <td>O-</td>
+                <td>All blood groups</td>
+                <td>O-</td>
+            </tr>
+        </table>
+        <p class="note">Note: Compatibility is based on red blood cell transfusions. Plasma and platelet transfusions may follow different compatibility rules (e.g., AB+ is the universal plasma donor). Always verify with medical professionals before transfusion.</p>
+    </div>
+ 
+    </div>
+</div>
+<div class="emergency-card">
+  <h5>Emergency Helpline Numbers</h5>
+  <ul>
+    <li><strong>National Emergency</strong> 112</li>
+    <li><strong>Police</strong> 100</li>
+    <li><strong>Fire Brigade</strong> 101</li>
+    <li><strong>Ambulance</strong> 102</li>
+    <li><strong>Medical Emergency</strong> 108</li>
+    <li><strong>Women Helpline</strong> 1091</li>
+    <li><strong>Women Helpline (Domestic Abuse)</strong> 181</li>
+    <li><strong>Child Helpline</strong> 1098</li>
+  </ul>
+</div>
+
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content text-center">
+      <div class="modal-header">
+        <h5 class="modal-title">Please Login / Sign Up</h5>
+      </div>
+      <div class="modal-body">
+        <p>You must log in or sign up to access Friend In Need features.</p>
+        <a href="index.html" class="btn btn-primary m-2">Sign Up</a>
+        <a href="login.html" class="btn btn-secondary m-2">Login</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    if (localStorage.getItem('loggedIn') !== 'true') {
+      $('#loginModal').modal({
+        backdrop: 'static',
+        keyboard: false
+      });
+    } else {
+      $('#loginModal').modal('hide');
+    }
+
+    // Fetch current calamities
+    fetch('https://api.reliefweb.int/v1/disasters?appname=friend-in-need&filter[field]=country&filter[value]=India&limit=5')
+      .then(response => response.json())
+      .then(data => {
+        const calamitiesDiv = document.getElementById('calamities');
+        if (data.data.length === 0) {
+          calamitiesDiv.innerHTML = '<p>No recent calamities reported.</p>';
+          return;
+        }
+        data.data.forEach(item => {
+          const card = document.createElement('div');
+          card.className = 'card calamity-card';
+          card.innerHTML = `
+            <div class="card-body">
+              <h5 class="card-title">${item.fields.name}</h5>
+              <p class="card-text">${item.fields.description || 'No description available.'}</p>
+              <p><strong>Date:</strong> ${new Date(item.fields.date.created).toLocaleDateString()}</p>
+            </div>`;
+          calamitiesDiv.appendChild(card);
+        });
+      })
+      .catch(error => {
+        console.error('Error fetching calamities:', error);
+        document.getElementById('calamities').innerHTML = '<p>Unable to load calamity data.</p>';
+      });
+
+    // Fetch future calamity forecast
+    fetch('https://api.openweathermap.org/data/3.0/onecall?lat=28.6139&lon=77.2090&exclude=hourly,minutely&appid=YOUR_OPENWEATHERMAP_API_KEY')
+      .then(response => response.json())
+      .then(data => {
+        const futureDiv = document.getElementById('futureCalamities');
+        if (data.alerts && data.alerts.length > 0) {
+          data.alerts.forEach(alert => {
+            const card = document.createElement('div');
+            card.className = 'card calamity-card';
+            card.innerHTML = `
+              <div class="card-body">
+                <h5 class="card-title">${alert.event}</h5>
+                <p class="card-text">${alert.description}</p>
+                <p><strong>From:</strong> ${new Date(alert.start * 1000).toLocaleDateString()}</p>
+                <p><strong>To:</strong> ${new Date(alert.end * 1000).toLocaleDateString()}</p>
+              </div>`;
+            futureDiv.appendChild(card);
+          });
+        } else {
+          futureDiv.innerHTML = '<p>No severe weather alerts at this time.</p>';
+        } 
+      })
+      .catch(error => {
+        console.error('Error fetching weather alerts:', error);
+        document.getElementById('futureCalamities').innerHTML = '<p>Unable to load forecast data.</p>';
+      });
+
+    // Simulated accident deaths counter
+    //let accidentCount = 5236; // Based on historical average from The Hindu BusinessLine[](https://www.thehindubusinessline.com/opinion/india-is-not-prepared-for-natural-disasters/article30463153.ece)
+    //document.getElementById('accidentCounter').textContent = accidentCount.toLocaleString();
+    // Optionally, update periodically (e.g., simulate live data)
+    //setInterval(() => {
+    //  accidentCount += Math.floor(Math.random() * 10); // Simulate increment
+     // document.getElementById('accidentCounter').textContent = accidentCount.toLocaleString();
+    //}, 60000); // Update every minute-->
+    
+  });
+
+  function logout() {
+    localStorage.removeItem('loggedIn');
+    window.location.href = 'index.html';
+  }
+
+  // Handle GPS location
+  document.getElementById('getLocationBtn').addEventListener('click', function() {
+    const locationInput = document.getElementById('location');
+    const errorText = document.getElementById('locationError');
+
+    if (!navigator.geolocation) {
+      errorText.textContent = 'Geolocation is not supported by your browser.';
+      errorText.style.display = 'block';
+      return;
+    }
+
+    errorText.style.display = 'none';
+    navigator.geolocation.getCurrentPosition(
+      function(position) {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        locationInput.value = `Lat: ${latitude.toFixed(4)}, Lon: ${longitude.toFixed(4)}`;
+      },
+      function(error) {
+        switch(error.code) {
+          case error.PERMISSION_DENIED:
+            errorText.textContent = 'Permission to access location was denied.';
+            break;
+          case error.POSITION_UNAVAILABLE:
+            errorText.textContent = 'Location information is unavailable.';
+            break;
+          case error.TIMEOUT:
+            errorText.textContent = 'The request to get location timed out.';
+            break;
+          default:
+            errorText.textContent = 'An unknown error occurred.';
+            break;
+        }
+        errorText.style.display = 'block';
+      }
+    );
+  });
+
+  // Handle form submission
+  document.getElementById('helpForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (localStorage.getItem('loggedIn') !== 'true') {
+      $('#loginModal').modal({
+        backdrop: 'static',
+        keyboard: false
+      });
+      return;
+    }
+    const type = document.getElementById('problemType').value;
+    const location = document.getElementById('location').value;
+    const card = document.createElement('div');
+    card.className = 'card mt-2';
+    card.innerHTML = `<div class="card-body"><h5>${type}</h5><p>${location}</p></div>`;
+    document.getElementById('helpRequests').appendChild(card);
+    this.reset();
+  });
+</script>
+</body>
+</html>

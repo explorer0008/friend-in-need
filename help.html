@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emergency Help Form</title>
+  <link rel="stylesheet" href="help.css">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .hidden { display: none; }
+  </style>
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+  <h2 class="text-center mb-4">Request Help</h2>
+  <form id="helpForm">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" class="form-control" id="name" required>
+    </div>
+    <div class="form-group">
+      <label for="phone">Phone Number:</label>
+      <input type="tel" class="form-control" id="phone" required>
+    </div>
+    <div class="form-group">
+      <label for="location">Location:</label>
+      <input type="text" class="form-control" id="location" required>
+     <button class="btn-btn-outline-secondary" type="button" id="getLocationBtn"><b>Get GPS</b></button>
+
+    </div>
+    <div class="form-group">
+      <label for="emergency">Emergency Type:</label>
+      <select class="form-control" id="emergency" required>
+        <option value="">Select</option>
+        <option value="health">Health</option>
+        <option value="stuck">Stuck Somewhere</option>
+        <option value="others">Others</option>
+      </select>
+    </div>
+    <div class="form-group hidden" id="extraDetailsDiv">
+      <label for="extraDetails">Please provide more details:</label>
+      <textarea class="form-control" id="extraDetails" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="button" class="btn btn-secondary ml-2" onclick="goBack()">Back</button>
+  </form>
+</div>
+
+<script>
+  // Show textarea when any option (health, stuck, others) is selected
+  document.getElementById('emergency').addEventListener('change', function() {
+    const extraDiv = document.getElementById('extraDetailsDiv');
+    if (this.value !== '') {
+      extraDiv.classList.remove('hidden');
+    } else {
+      extraDiv.classList.add('hidden');
+    }
+  });
+
+  // Handle form submit
+  document.getElementById('helpForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const data = {
+      name: document.getElementById('name').value,
+      phone: document.getElementById('phone').value,
+      location: document.getElementById('location').value,
+      emergency: document.getElementById('emergency').value,
+      extraDetails: document.getElementById('extraDetails').value
+    };
+
+    localStorage.setItem('helpRequest', JSON.stringify(data));
+
+    alert('Help request submitted!');
+    this.reset();
+    document.getElementById('extraDetailsDiv').classList.add('hidden');
+  });
+
+  // Back button
+  function goBack() {
+    window.history.back();
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Friend In Need - Login</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+  <div class="container mt-5">
+    <h2 class="text-center mb-4">Login</h2>
+    <form onsubmit="login(event)">
+      <div class="form-group"><input type="text" id="identifier" class="form-control" placeholder="Email or Phone" required></div>
+      <div class="form-group"><input type="password" id="loginPassword" class="form-control" placeholder="Password" required></div>
+      <button type="submit" class="btn btn-primary btn-block">Login</button>
+    </form>
+    <p class="text-center mt-3">Don't have an account? <a href="index.html">Sign Up</a></p>
+  </div>
+
+<script>
+function login(event) {
+  event.preventDefault();
+  const identifier = document.getElementById('identifier').value;
+  const pwd = document.getElementById('loginPassword').value;
+
+  const stored = JSON.parse(localStorage.getItem('userData'));
+  if (!stored) {
+    alert("No user found. Please sign up first.");
+    return;
+  }
+
+  if ((identifier === stored.email || identifier === stored.phone) && pwd === stored.password) {
+    localStorage.setItem('loggedIn', 'true');
+    window.location.href = "home.html";
+  } else {
+    alert("Invalid credentials!");
+  }
+}
+</script>
+</body>
+</html>
