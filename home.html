@@ -18,7 +18,6 @@
   <a class="navbar-brand">Friend In Need</a>
   <div class="collapse navbar-collapse">
     <ul class="navbar-nav ml-auto">
-      <!--<li class="nav-item"><a class="nav-link" href="#">Home</a></li> -->
       <li class="nav-item"><a class="nav-link" href="#">Your ID</a></li>
       <li class="nav-item"><a class="nav-link" href="#" onclick="logout()">Logout</a></li>
     </ul>
@@ -26,7 +25,6 @@
 </nav>
 
 <div class="container mt-4">
-  <!-- Seek Help Section -->
   <h3>Seek Help</h3>
   <form id="helpForm">
     <div class="form-row">
@@ -51,7 +49,6 @@
   </form>
   <a href="help.html" class="text-decoration-none">
     <div class="card" style="cursor: pointer;">
-      <!--<img src="https://via.placeholder.com/300x150" class="card-img-top" alt="Help">-->
       <div class="card-body">
         <h5 class="card-title">Need Help</h5>
         <p class="card-text"><b>Click here to seek help</b></p>
@@ -60,14 +57,12 @@
   </a>
   
 
-  <!-- Current Calamities Section -->
   <h4 class="mt-5"><b>Current Calamities in India</b></h4>
   <div id="calamities" class="mt-3"></div>
   <button class="sachet" onclick="window.location.href='https://sachet.ndma.gov.in/'">
   Sachet Portal
    </button>
 
-  <!-- Donation Section -->
   <h4 class="mt-5"><b>Donate to Help</b></h4>
   <div class="row">
     <div class="col-md-4 donation-card">
@@ -99,20 +94,15 @@
     </div>
   </div>
 
-  <!-- Future Calamities Section -->
   <h4 class="mt-5"><b>Future Calamity Forecast</b></h4>
   <div id="futureCalamities" class="mt-3"></div>
   
 
-  <!-- Accident Deaths Counter 
-  <h4 class="mt-5"><b>Lives Lost to Accidents in 2025</b></h4>
-  <div id="accidentCounter" class="mt-3">Loading...</div>
-  <p class="note">These all died because they didn’t get any help on time.</p> -->
+ 
   <h3 class="death">530 lives are lost in india per day as there was no one to...</h3>
     <h1 class="death"><b>Help!</b></h1>
     <h3 class="message"> Its an initiative to save lives and be helpful whenever we can be.<br> You don't need a reason to help people...</h3>
 
-  <!-- People Near You Section -->
   <h4 class="mt-5">People Near You Who Need Help:</h4>
   <div id="helpRequests" class="mt-3"></div>
 </div>
@@ -170,19 +160,44 @@
  
     </div>
 </div>
-<div class="emergency-card">
-  <h5>Emergency Helpline Numbers</h5>
-  <ul>
-    <li><strong>National Emergency</strong> 112</li>
-    <li><strong>Police</strong> 100</li>
-    <li><strong>Fire Brigade</strong> 101</li>
-    <li><strong>Ambulance</strong> 102</li>
-    <li><strong>Medical Emergency</strong> 108</li>
-    <li><strong>Women Helpline</strong> 1091</li>
-    <li><strong>Women Helpline (Domestic Abuse)</strong> 181</li>
-    <li><strong>Child Helpline</strong> 1098</li>
-  </ul>
-</div>
+
+ <div class="d-flex justify-content-end">
+    <div class="emergency-card">
+      <h5>Emergency Helpline Numbers</h5>
+      <ul>
+        <li><strong>National Emergency</strong> <a href="tel:112" class="text-white">112</a> <button class="btn btn-light btn-sm btn-call" onclick="window.location.href='tel:112'">Call Now</button></li>
+        <li><strong>Police</strong> <a href="tel:100" class="text-white">100</a> <button class="btn btn-light btn-sm btn-call" onclick="window.location.href='tel:100'">Call Now</button></li>
+        <li><strong>Fire Brigade</strong> <a href="tel:101" class="text-white">101</a> <button class="btn btn-light btn-sm btn-call" onclick="window.location.href='tel:101'">Call Now</button></li>
+        <li><strong>Ambulance</strong> <a href="tel:102" class="text-white">102</a> <button class="btn btn-light btn-sm btn-call" onclick="window.location.href='tel:102'">Call Now</button></li>
+        <li><strong>Medical Emergency</strong> <a href="tel:108" class="text-white">108</a> <button class="btn btn-light btn-sm btn-call" onclick="window.location.href='tel:108'">Call Now</button></li>
+        <li><strong>Women Helpline</strong> <a href="tel:1091" class="text-white">1091</a> <button class="btn btn-light btn-sm btn-call" onclick="window.location.href='tel:1091'">Call Now</button></li>
+        <li><strong>Women Helpline (Domestic Abuse)</strong> <a href="tel:181" class="text-white">181</a> <button class="btn btn-light btn-sm btn-call" onclick="window.location.href='tel:181'">Call Now</button></li>
+        <li><strong>Child Helpline</strong> <a href="tel:1098" class="text-white">1098</a> <button class="btn btn-light btn-sm btn-call" onclick="window.location.href='tel:1098'">Call Now</button></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-end">
+    <div class="first-aid-card">
+      <h5>First Aid Guide</h5>
+      <ul>
+        <li>
+          <strong>CPR (Cardiac Arrest)</strong>
+          <p>1. Check responsiveness. 2. Call 108. 3. Perform chest compressions (100-120/min). <a href="https://www.redcross.org/take-a-class/cpr" target="_blank" class="btn-details">Details</a></p>
+        </li>
+        <li>
+          <strong>Burns</strong>
+          <p>1. Cool burn with running water (10-15 min). 2. Cover with a clean cloth. 3. Seek medical help. <a href="https://www.redcross.org/get-help/how-to-prepare-for-emergencies/types-of-emergencies/burns.html" target="_blank" class="btn-details">Details</a></p>
+        </li>
+        <li>
+          <strong>Choking</strong>
+          <p>1. Perform 5 back blows. 2. Perform 5 abdominal thrusts (Heimlich). 3. Call 108 if unresolved. <a href="https://www.redcross.org/take-a-class/choking" target="_blank" class="btn-details">Details</a></p>
+        </li>
+      </ul>
+      <p><a href="https://www.redcross.org/get-help/how-to-prepare-for-emergencies.html" target="_blank" class="btn btn-light btn-sm">More First Aid Tips</a></p>
+    </div>
+  </div>
+
 
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog modal-dialog-centered" role="document">
@@ -212,7 +227,6 @@
       $('#loginModal').modal('hide');
     }
 
-    // Fetch current calamities
     fetch('https://api.reliefweb.int/v1/disasters?appname=friend-in-need&filter[field]=country&filter[value]=India&limit=5')
       .then(response => response.json())
       .then(data => {
@@ -238,7 +252,7 @@
         document.getElementById('calamities').innerHTML = '<p>Unable to load calamity data.</p>';
       });
 
-    // Fetch future calamity forecast
+    
     fetch('https://api.openweathermap.org/data/3.0/onecall?lat=28.6139&lon=77.2090&exclude=hourly,minutely&appid=YOUR_OPENWEATHERMAP_API_KEY')
       .then(response => response.json())
       .then(data => {
@@ -264,16 +278,6 @@
         console.error('Error fetching weather alerts:', error);
         document.getElementById('futureCalamities').innerHTML = '<p>Unable to load forecast data.</p>';
       });
-
-    // Simulated accident deaths counter
-    //let accidentCount = 5236; // Based on historical average from The Hindu BusinessLine[](https://www.thehindubusinessline.com/opinion/india-is-not-prepared-for-natural-disasters/article30463153.ece)
-    //document.getElementById('accidentCounter').textContent = accidentCount.toLocaleString();
-    // Optionally, update periodically (e.g., simulate live data)
-    //setInterval(() => {
-    //  accidentCount += Math.floor(Math.random() * 10); // Simulate increment
-     // document.getElementById('accidentCounter').textContent = accidentCount.toLocaleString();
-    //}, 60000); // Update every minute-->
-    
   });
 
   function logout() {
@@ -319,7 +323,7 @@
     );
   });
 
-  // Handle form submission
+  
   document.getElementById('helpForm').addEventListener('submit', function(e) {
     e.preventDefault();
     if (localStorage.getItem('loggedIn') !== 'true') {
