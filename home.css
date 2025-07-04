@@ -59,7 +59,7 @@ body{
 }
  .emergency-card {
 
-    background-color: #dc3545;
+    background-color: red;
     color: white;
     padding: 20px;
     border-radius: 8px;
@@ -123,4 +123,11 @@ body{
     text-align: center;
     color: white;
     margin-top: auto;
+}
+.first-aid-card{
+    background-color: red;
+    color: black;
+    border: black;
+    border-radius: 7px;
+    
 }
