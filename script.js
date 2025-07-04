@@ -1,10 +1,8 @@
-// Fake "login" that redirects to home page
 function login(event) {
   event.preventDefault();
   window.location.href = "home.html";
 }
 
-// Handle help request form
 document.addEventListener("DOMContentLoaded", () => {
   const helpForm = document.getElementById('helpForm');
   const helpRequests = document.getElementById('helpRequests');
