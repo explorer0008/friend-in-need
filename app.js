@@ -1,71 +1,261 @@
-const DB_NAME="friendInNeedDB", DB_VERSION=1;
-function openDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open(DB_NAME,DB_VERSION);
-req.onupgradeneeded=e=>{const db=e.target.result;if(!db.objectStoreNames.contains("users")){const s=db.createObjectStore("users",{keyPath:"id",autoIncrement:true});s.createIndex("email","email",{unique:true});s.createIndex("phone","phone",{unique:true});}
-if(!db.objectStoreNames.contains("requests"))db.createObjectStore("requests",{keyPath:"id",autoIncrement:true});};
-req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});}
-async function tx(store,mode,work){const db=await openDB();return new Promise((resolve,reject)=>{const t=db.transaction(store,mode),s=t.objectStore(store),r=work(s);t.oncomplete=()=>resolve(r?.result);t.onerror=()=>reject(t.error);});}
-function setMsg(text,ok=false){const el=document.getElementById("message");if(el){el.textContent=text;el.className=ok?"message success":"message";}}
-function currentUser(){return JSON.parse(localStorage.getItem("currentUser")||"null")}
-function requireLogin(){if(!currentUser()&&!location.pathname.endsWith("index.html")&&!location.pathname.endsWith("login.html"))location.href="login.html"}
-document.addEventListener("DOMContentLoaded",()=>{requireLogin();wireSignup();wireLogin();wireLogout();wireHelpForm();renderRequests();prefillUser();});
+const stateCities = {
+  "Andhra Pradesh": ["Visakhapatnam", "Vijayawada", "Guntur", "Tirupati"],
+  "Delhi": ["New Delhi", "Dwarka", "Rohini", "Saket"],
+  "Gujarat": ["Ahmedabad", "Surat", "Vadodara", "Rajkot"],
+  "Karnataka": ["Bengaluru", "Mysuru", "Mangaluru", "Hubballi"],
+  "Kerala": ["Kochi", "Thiruvananthapuram", "Kozhikode", "Thrissur"],
+  "Maharashtra": ["Mumbai", "Pune", "Nagpur", "Nashik"],
+  "Rajasthan": ["Jaipur", "Jodhpur", "Udaipur", "Kota"],
+  "Tamil Nadu": ["Chennai", "Coimbatore", "Madurai", "Salem"],
+  "Telangana": ["Hyderabad", "Warangal", "Nizamabad", "Karimnagar"],
+  "Uttar Pradesh": ["Lucknow", "Kanpur", "Varanasi", "Noida"],
+  "West Bengal": ["Kolkata", "Howrah", "Durgapur", "Siliguri"]
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  wireSignup();
+  wireLogin();
+  wireLogout();
+  wireLocationDropdowns();
+  wireBloodDropdown();
+  wireGpsButton();
+  wireHelpForm();
+  renderRequests();
+  prefillUser();
+});
+
+function setMsg(text, ok = false) {
+  const el = document.getElementById("message");
+  if (!el) return;
+  el.textContent = text;
+  el.className = ok ? "message success" : "message";
+}
+
+function currentUser() {
+  return JSON.parse(localStorage.getItem("currentUser") || "null");
+}
 
 function wireSignup() {
   const form = document.getElementById("signupForm");
   if (!form) return;
 
-  form.addEventListener("submit", async e => {
+  form.addEventListener("submit", e => {
     e.preventDefault();
 
-    const nameInput = document.getElementById("name");
-    const phoneInput = document.getElementById("phone");
-    const emailInput = document.getElementById("email");
-    const passwordInput = document.getElementById("password");
-    const confirmInput = document.getElementById("confirmPassword");
+    const user = {
+      name: document.getElementById("name").value.trim(),
+      phone: document.getElementById("phone").value.trim(),
+      email: document.getElementById("email").value.trim().toLowerCase(),
+      password: document.getElementById("password").value
+    };
 
-    const password = passwordInput.value;
-    const confirm = confirmInput.value;
+    const confirm = document.getElementById("confirmPassword").value;
 
-    if (password !== confirm) {
+    if (user.password !== confirm) {
       return setMsg("Passwords do not match.");
     }
 
-    const user = {
-      name: nameInput.value.trim(),
-      phone: phoneInput.value.trim(),
-      email: emailInput.value.trim().toLowerCase(),
-      password,
-      createdAt: new Date().toISOString()
-    };
+    localStorage.setItem("currentUser", JSON.stringify(user));
+    window.location.href = "home.html";
+  });
+}
 
-    try {
-      const id = await tx("users", "readwrite", s => s.add(user));
-      localStorage.setItem("currentUser", JSON.stringify({ ...user, id }));
-      location.href = "home.html";
-    } catch (error) {
-      console.error(error);
-      setMsg("Email or phone already exists. Try logging in.");
+function wireLogin() {
+  const form = document.getElementById("loginForm");
+  if (!form) return;
+
+  form.addEventListener("submit", e => {
+    e.preventDefault();
+
+    const user = JSON.parse(localStorage.getItem("currentUser") || "null");
+    const identifier = document.getElementById("identifier").value.trim().toLowerCase();
+    const password = document.getElementById("loginPassword").value;
+
+    if (!user) return setMsg("No user found. Please sign up first.");
+
+    const validId = identifier === user.email || identifier === user.phone;
+
+    if (validId && password === user.password) {
+      window.location.href = "home.html";
+    } else {
+      setMsg("Invalid login details.");
     }
   });
 }
 
-function wireLogin(){const form=document.getElementById("loginForm");if(!form)return;form.addEventListener("submit",async e=>{e.preventDefault();
-const idf=identifier.value.trim().toLowerCase(), pwd=loginPassword.value;const db=await openDB();
-const found=await new Promise(resolve=>{const t=db.transaction("users"),s=t.objectStore("users"),users=[];s.openCursor().onsuccess=e=>{const c=e.target.result;if(c){users.push(c.value);c.continue();}else resolve(users.find(u=>(u.email===idf||u.phone===idf)&&u.password===pwd));};});
-if(!found)return setMsg("Invalid credentials.");localStorage.setItem("currentUser",JSON.stringify(found));location.href="home.html";});}
+function wireLogout() {
+  const btn = document.getElementById("logoutBtn");
+  if (!btn) return;
 
-function wireLogout(){const btn=document.getElementById("logoutBtn");if(btn)btn.onclick=()=>{localStorage.removeItem("currentUser");location.href="login.html";};}
+  btn.addEventListener("click", () => {
+    window.location.href = "login.html";
+  });
+}
 
-function prefillUser(){const u=currentUser();if(!u)return;if(document.getElementById("requestName"))requestName.value=u.name||"";if(document.getElementById("requestPhone"))requestPhone.value=u.phone||"";}
+function prefillUser() {
+  const user = currentUser();
+  if (!user) return;
 
-function wireHelpForm(){const form=document.getElementById("helpForm");const gps=document.getElementById("gpsBtn");
-if(gps)gps.onclick=()=>navigator.geolocation?navigator.geolocation.getCurrentPosition(p=>requestLocation.value=`Lat ${p.coords.latitude.toFixed(4)}, Lon ${p.coords.longitude.toFixed(4)}`,()=>setMsg("Could not get GPS location.")):setMsg("GPS is not supported.");
-if(!form)return;form.addEventListener("submit",async e=>{e.preventDefault();const u=currentUser();if(!u)return location.href="login.html";
-const request={name:requestName.value.trim(),phone:requestPhone.value.trim(),location:requestLocation.value.trim(),emergency:emergency.value,details:details.value.trim(),status:"Open",userId:u.id,createdAt:new Date().toISOString()};
-await tx("requests","readwrite",s=>s.add(request));setMsg("Help request submitted successfully.",true);form.reset();prefillUser();});}
+  const name = document.getElementById("requestName");
+  const phone = document.getElementById("requestPhone");
 
-async function getAllRequests(){const db=await openDB();return new Promise(resolve=>{const out=[],r=db.transaction("requests").objectStore("requests").openCursor(null,"prev");r.onsuccess=e=>{const c=e.target.result;if(c){out.push(c.value);c.continue();}else resolve(out);};});}
+  if (name) name.value = user.name || "";
+  if (phone) phone.value = user.phone || "";
+}
 
-async function renderRequests(){const list=document.getElementById("requestList");if(!list)return;const requests=await getAllRequests();
-list.innerHTML=requests.length?"":"<p>No help requests yet.</p>";
-requests.forEach(r=>{const card=document.createElement("article");card.className="request-card";card.innerHTML=`<h3>${escapeHtml(r.emergency)}</h3><p>${escapeHtml(r.details||"No extra details added.")}</p><p><b>${escapeHtml(r.name)}</b> · <a href="tel:${escapeHtml(r.phone)}">${escapeHtml(r.phone)}</a></p><p>${escapeHtml(r.location)}</p><p class="meta">${new Date(r.createdAt).toLocaleString()} · ${r.status}</p>`;list.appendChild(card);});}
-function escapeHtml(v){return String(v).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]));}
+function wireLocationDropdowns() {
+  const stateSelect = document.getElementById("state");
+  const citySelect = document.getElementById("city");
+
+  if (!stateSelect || !citySelect) return;
+
+  Object.keys(stateCities).forEach(state => {
+    const option = document.createElement("option");
+    option.value = state;
+    option.textContent = state;
+    stateSelect.appendChild(option);
+  });
+
+  stateSelect.addEventListener("change", () => {
+    citySelect.innerHTML = '<option value="">Select city</option>';
+
+    const cities = stateCities[stateSelect.value] || [];
+
+    cities.forEach(city => {
+      const option = document.createElement("option");
+      option.value = city;
+      option.textContent = city;
+      citySelect.appendChild(option);
+    });
+  });
+}
+
+function wireBloodDropdown() {
+  const emergency = document.getElementById("emergency");
+  const bloodGroup = document.getElementById("bloodGroup");
+
+  if (!emergency || !bloodGroup) return;
+
+  emergency.addEventListener("change", () => {
+    const isBlood = emergency.value === "Blood Needed";
+    bloodGroup.classList.toggle("hidden", !isBlood);
+    bloodGroup.required = isBlood;
+    if (!isBlood) bloodGroup.value = "";
+  });
+}
+
+function wireGpsButton() {
+  const btn = document.getElementById("gpsBtn");
+  const input = document.getElementById("gpsLocation");
+
+  if (!btn || !input) return;
+
+  btn.addEventListener("click", () => {
+    if (!navigator.geolocation) {
+      return setMsg("GPS is not supported by this browser.");
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        input.value = `Lat ${position.coords.latitude.toFixed(4)}, Lon ${position.coords.longitude.toFixed(4)}`;
+        setMsg("GPS location added.", true);
+      },
+      () => setMsg("Could not get GPS location. Enter address manually.")
+    );
+  });
+}
+
+function wireHelpForm() {
+  const form = document.getElementById("helpForm");
+  if (!form) return;
+
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+
+    const request = {
+      name: document.getElementById("requestName").value.trim(),
+      phone: document.getElementById("requestPhone").value.trim(),
+      emergency: document.getElementById("emergency").value,
+      bloodGroup: document.getElementById("bloodGroup").value,
+      gpsLocation: document.getElementById("gpsLocation").value.trim(),
+      state: document.getElementById("state").value,
+      city: document.getElementById("city").value,
+      address: document.getElementById("address").value.trim(),
+      pinCode: document.getElementById("pinCode").value.trim(),
+      details: document.getElementById("details").value.trim()
+    };
+
+    if (!/^\d{6}$/.test(request.pinCode)) {
+      return setMsg("Please enter a valid 6 digit pin code.");
+    }
+
+    const response = await fetch("/api/requests", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(request)
+    });
+
+    if (!response.ok) {
+      return setMsg("Could not submit request.");
+    }
+
+    setMsg("Help request submitted and stored on the system.", true);
+    form.reset();
+
+    const bloodGroup = document.getElementById("bloodGroup");
+    bloodGroup.classList.add("hidden");
+    bloodGroup.required = false;
+
+    prefillUser();
+  });
+}
+
+async function renderRequests() {
+  const list = document.getElementById("requestList");
+  if (!list) return;
+
+  const response = await fetch("/api/requests");
+  const requests = await response.json();
+
+  if (!requests.length) {
+    list.innerHTML = "<p>No help requests yet.</p>";
+    return;
+  }
+
+  list.innerHTML = "";
+
+  requests.forEach(request => {
+    const card = document.createElement("article");
+    card.className = "request-card";
+
+    const blood = request.bloodGroup
+      ? `<p><b>Blood group:</b> ${escapeHtml(request.bloodGroup)}</p>`
+      : "";
+
+    card.innerHTML = `
+      <h3>${escapeHtml(request.emergency)}</h3>
+      ${blood}
+      <p><b>Name:</b> ${escapeHtml(request.name)}</p>
+      <p><b>Phone:</b> <a href="tel:${escapeHtml(request.phone)}">${escapeHtml(request.phone)}</a></p>
+      <p><b>Location:</b> ${escapeHtml(request.city)}, ${escapeHtml(request.state)} - ${escapeHtml(request.pinCode)}</p>
+      <p><b>Address:</b> ${escapeHtml(request.address)}</p>
+      <p><b>GPS:</b> ${escapeHtml(request.gpsLocation || "Not provided")}</p>
+      <p>${escapeHtml(request.details || "No extra details.")}</p>
+      <p class="meta">${new Date(request.createdAt).toLocaleString()} · ${escapeHtml(request.status)}</p>
+    `;
+
+    list.appendChild(card);
+  });
+}
+
+function escapeHtml(value) {
+  return String(value || "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  }[char]));
+}
