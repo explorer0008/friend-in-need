@@ -19,3 +19,6 @@ input:focus,select:focus,textarea:focus{outline:3px solid #99f6e4;border-color:#
 .form-shell{min-height:calc(100vh - 62px);display:grid;place-items:center;padding:28px;background:linear-gradient(rgba(245,247,251,.9),rgba(245,247,251,.9)),url("helping.jpeg.jpeg") center/cover fixed}
 .form-panel{width:min(92vw,760px)}.location-row{display:grid;grid-template-columns:1fr auto;gap:10px}.back-link{text-align:center;color:#0f766e;font-weight:700}
 @media(max-width:760px){.grid-2,.layout,.location-row{grid-template-columns:1fr}.topbar{align-items:flex-start;gap:12px}.hero{min-height:430px}.panel{padding:18px}}
+.hidden {
+  display: none;
+}
