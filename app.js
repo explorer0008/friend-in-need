@@ -9,12 +9,44 @@ function currentUser(){return JSON.parse(localStorage.getItem("currentUser")||"n
 function requireLogin(){if(!currentUser()&&!location.pathname.endsWith("index.html")&&!location.pathname.endsWith("login.html"))location.href="login.html"}
 document.addEventListener("DOMContentLoaded",()=>{requireLogin();wireSignup();wireLogin();wireLogout();wireHelpForm();renderRequests();prefillUser();});
 
-function wireSignup(){const form=document.getElementById("signupForm");if(!form)return;form.addEventListener("submit",async e=>{e.preventDefault();
-const password=document.getElementById("password").value, confirm=document.getElementById("confirmPassword").value;
-if(password!==confirm)return setMsg("Passwords do not match.");
-const user={name:name.value.trim(),phone:phone.value.trim(),email:email.value.trim().toLowerCase(),password,createdAt:new Date().toISOString()};
-try{const id=await tx("users","readwrite",s=>s.add(user));localStorage.setItem("currentUser",JSON.stringify({...user,id}));location.href="home.html";}
-catch{setMsg("Email or phone already exists. Try logging in.");}});}
+function wireSignup() {
+  const form = document.getElementById("signupForm");
+  if (!form) return;
+
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+
+    const nameInput = document.getElementById("name");
+    const phoneInput = document.getElementById("phone");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const confirmInput = document.getElementById("confirmPassword");
+
+    const password = passwordInput.value;
+    const confirm = confirmInput.value;
+
+    if (password !== confirm) {
+      return setMsg("Passwords do not match.");
+    }
+
+    const user = {
+      name: nameInput.value.trim(),
+      phone: phoneInput.value.trim(),
+      email: emailInput.value.trim().toLowerCase(),
+      password,
+      createdAt: new Date().toISOString()
+    };
+
+    try {
+      const id = await tx("users", "readwrite", s => s.add(user));
+      localStorage.setItem("currentUser", JSON.stringify({ ...user, id }));
+      location.href = "home.html";
+    } catch (error) {
+      console.error(error);
+      setMsg("Email or phone already exists. Try logging in.");
+    }
+  });
+}
 
 function wireLogin(){const form=document.getElementById("loginForm");if(!form)return;form.addEventListener("submit",async e=>{e.preventDefault();
 const idf=identifier.value.trim().toLowerCase(), pwd=loginPassword.value;const db=await openDB();
