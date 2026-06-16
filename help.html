@@ -1,45 +1,80 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Request Help</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
 <header class="topbar">
   <strong>Friend In Need</strong>
-  <nav><a href="home.html">Home</a><button id="logoutBtn" class="ghost">Logout</button></nav>
+  <nav>
+    <a href="home.html">Home</a>
+    <button id="logoutBtn" class="ghost">Logout</button>
+  </nav>
 </header>
 
 <main class="form-shell">
   <section class="panel form-panel">
     <h1>Request Help</h1>
-    <p>Your request is stored in the browser database and shown on the home page.</p>
+    <p>Choose GPS or enter your state, city, address, and pin code manually.</p>
+
     <form id="helpForm">
       <div class="grid-2">
         <input id="requestName" placeholder="Name" required>
         <input id="requestPhone" type="tel" placeholder="Phone number" required>
       </div>
-      <div class="location-row">
-        <input id="requestLocation" placeholder="Location or hospital" required>
-        <button type="button" id="gpsBtn" class="secondary">GPS</button>
-      </div>
+
       <select id="emergency" required>
         <option value="">Emergency type</option>
-        <option>Health Issue</option>
-        <option>Stuck Somewhere</option>
-        <option>Food / Shelter</option>
-        <option>Blood Needed</option>
-        <option>Other</option>
+        <option value="Health Issue">Health Issue</option>
+        <option value="Stuck Somewhere">Stuck Somewhere</option>
+        <option value="Food / Shelter">Food / Shelter</option>
+        <option value="Blood Needed">Blood Needed</option>
+        <option value="Other">Other</option>
       </select>
+
+      <select id="bloodGroup" class="hidden">
+        <option value="">Blood group needed</option>
+        <option>A+</option>
+        <option>A-</option>
+        <option>B+</option>
+        <option>B-</option>
+        <option>AB+</option>
+        <option>AB-</option>
+        <option>O+</option>
+        <option>O-</option>
+      </select>
+
+      <div class="location-row">
+        <input id="gpsLocation" placeholder="GPS location will appear here">
+        <button type="button" id="gpsBtn" class="secondary">Use GPS</button>
+      </div>
+
+      <div class="grid-2">
+        <select id="state" required>
+          <option value="">Select state</option>
+        </select>
+
+        <select id="city" required>
+          <option value="">Select city</option>
+        </select>
+      </div>
+
+      <textarea id="address" rows="3" placeholder="Full address / landmark" required></textarea>
+      <input id="pinCode" inputmode="numeric" maxlength="6" placeholder="Pin code" required>
+
       <textarea id="details" rows="4" placeholder="Extra details"></textarea>
-      <button>Submit Request</button>
+
+      <button type="submit">Submit Request</button>
       <a class="back-link" href="home.html">Back to home</a>
     </form>
+
     <p id="message" class="message"></p>
   </section>
 </main>
 
-<script src="app.js"></script>
+<script src="./app.js"></script>
 </body>
 </html>
